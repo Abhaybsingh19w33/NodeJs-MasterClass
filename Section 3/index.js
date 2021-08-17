@@ -1,6 +1,8 @@
 // dependencies
 const http = require('http');
 const url = require('url');
+// const StringDecoder = require('string_decoder').StringDecoder;
+const { StringDecoder } = require('string_decoder');
 
 // server should respond to all request with a string
 const server = http.createServer(function (req, res) {
@@ -11,7 +13,7 @@ const server = http.createServer(function (req, res) {
 
     // get the path from url
     var path = parseUrl.pathname;
-    // tirmming the first and last slashes from both sides
+    // trimming the first and last slashes from both sides
     var trimmedPath = path.replace(/\/+|\/+$/g, '')
 
     // get the query string as an object
@@ -23,12 +25,29 @@ const server = http.createServer(function (req, res) {
     // get the headers as an object
     var headers = req.headers;
 
-    // send the res
-    res.end('hello world\n');
+    // get the payload, if there is any
+    var decoder = new StringDecoder('utf-8');
+    var buffer = '';
+    // data event, this callback function will be called
+    req.on('data', function (data) {
+        // appending the data to buffer
+        buffer += decoder.write(data);
+    })
+    // end event
+    req.on('end', function () {
+        // append the buffer with decoder end
+        buffer += decoder.end();
 
-    // log the request
-    // console.log('Request received on path: ' + trimmedPath + ' with method: ' + method + ' and with these query string parameters: ', queryStringObject);
-    console.log('Request received with these headers: ', headers);
+        // when requestt is finished
+
+        // send the res
+        res.end('hello world\n');
+
+        // log the request
+        // console.log('Request received on path: ' + trimmedPath + ' with method: ' + method + ' and with these query string parameters: ', queryStringObject);
+        console.log('Request received with these payload: ', buffer);
+    });
+
 
 });
 
