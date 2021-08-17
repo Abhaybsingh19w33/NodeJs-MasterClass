@@ -7,17 +7,21 @@ const server = http.createServer(function (req, res) {
 
     // get the url and parse it
     // true means parse the query string, it will call the query string module 
-    var parseUrl = url.parse(req.url,true);
+    var parseUrl = url.parse(req.url, true);
 
     // get the path from url
     var path = parseUrl.pathname;
     // tirmming the first and last slashes from both sides
-    var trimmedPath = path.replace(/\/+|\/+$/g,'')
+    var trimmedPath = path.replace(/\/+|\/+$/g, '')
+
+    // get the HTTP method
+    var method = req.method.toLowerCase();
+
     // send the res
     res.end('hello world\n');
 
     // log the request
-    console.log('Request received on path: ' + trimmedPath)
+    console.log('Request received on path: ' + trimmedPath + ' with method: ' + method);
 
 });
 
