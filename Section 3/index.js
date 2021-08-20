@@ -70,6 +70,9 @@ const server = http.createServer(function (req, res) {
 
             // Return the response
             // when request is finished
+
+            // sending the header content type as json to the user
+            res.setHeader('Content-Type', 'application/json');
             // writing the statusCode to the header
             res.writeHead(statusCode);
             // closing the payload string
