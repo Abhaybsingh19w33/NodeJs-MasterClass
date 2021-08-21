@@ -128,7 +128,7 @@ var handlers = {};
 // step - 5.2 Sample handler
 // data contains every bit of data which is passed from browser
 // callback is a function which will be called when the handler had done with their request
-handlers.sample = function (data, callback) {
+// handlers.sample = function (data, callback) {
     // callback a http status code, and a pyload object
 
     // 406 Not Acceptable client error response code 
@@ -139,7 +139,14 @@ handlers.sample = function (data, callback) {
     // unwilling to supply a default representation
 
     // this payload key value pair is passed
-    callback(406, { 'name': 'sample handler' });
+//     callback(406, { 'name': 'sample handler' });
+// };
+
+// Ping handler
+// to keep check if the server is alive or dead
+// payload will be empty
+handlers.ping = function(data,callback){
+    callback(200);
 };
 
 // Not found handler
@@ -150,5 +157,5 @@ handlers.notFound = function (data, callback) {
 // step - 5.1 Define the request router
 // here when sample passed in url the handler.sample will be called
 var router = {
-    'sample': handlers.sample
+    'ping': handlers.ping
 };
