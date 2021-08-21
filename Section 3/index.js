@@ -1,12 +1,49 @@
 // dependencies
-const http = require('http');
-const url = require('url');
-const StringDecoder = require('string_decoder').StringDecoder;
+var http = require('http');
+var https = require('https');
+var url = require('url');
+var StringDecoder = require('string_decoder').StringDecoder;
 // const { StringDecoder } = require('string_decoder');
 var config = require('./config');
+var fs = require('fs');
 
-// server should respond to all request with a string
-const server = http.createServer(function (req, res) {
+// instantiating the server
+const httpServer = http.createServer(function (req, res) {
+    unifiedServer(req, res);
+});
+
+// step - 0 start the server, and have it listen on port 3000
+// when it done listening it will run this function
+
+// to work this NODE_ENV command
+// for ubuntu - NODE_ENV=production node index.js
+// for windows - here spaces between command letters are important
+// run the command set NODE_ENV=production&&node index.js in CMD with administrator privilage
+httpServer.listen(config.httpPort, function () {
+    console.log('The HTTP server is running on port ' + config.httpPort);
+})
+
+// Instantiate the HTTPS server
+// reading the data from the http file
+// key is imp for encryption and decryption
+var httpsServerOptions = {
+    //there are 2 type of function here sync and async, we are using sync version 
+    'key': fs.readFileSync('./https/key.pem'),
+    'cert': fs.readFileSync('./https/cert.pem')
+};
+
+// passing serverOptions for the https
+var httpsServer = https.createServer(httpsServerOptions, function (req, res) {
+    unifiedServer(req, res);
+});
+
+// Start the HTTPS server
+httpsServer.listen(config.httpsPort, function () {
+    console.log('The HTTPS server is running on port ' + config.httpsPort);
+});
+
+// All the server logic for both the http and https server
+var unifiedServer = function (req, res) {
 
     // step - 1 get the url and parse it
     // true means parse the query string, as it will call the query string module
@@ -83,18 +120,7 @@ const server = http.createServer(function (req, res) {
             console.log("Returning this response: ", statusCode, payloadString);
         });
     });
-});
-
-// step - 0 start the server, and have it listen on port 3000
-// when it done listening it will run this function
-
-// to work this NODE_ENV command
-// for ubuntu - NODE_ENV=production node index.js
-// for windows - here spaces between command letters are important
-// run the command set NODE_ENV=production&&node index.js in CMD with administrator privilage
-server.listen(config.port, function () {
-    console.log("The server is listening to port " + config.port + " in config " + config.envName + " mode");
-})
+};
 
 // Step - 5 Define all the handlers
 var handlers = {};
