@@ -3,6 +3,7 @@ const http = require('http');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 // const { StringDecoder } = require('string_decoder');
+var config = require('./config');
 
 // server should respond to all request with a string
 const server = http.createServer(function (req, res) {
@@ -86,8 +87,13 @@ const server = http.createServer(function (req, res) {
 
 // step - 0 start the server, and have it listen on port 3000
 // when it done listening it will run this function
-server.listen(3000, function () {
-    console.log("The server is listening to port 3000 ");
+
+// to work this NODE_ENV command
+// for ubuntu - NODE_ENV=production node index.js
+// for windows - here spaces between command letters are important
+// run the command set NODE_ENV=production&&node index.js in CMD with administrator privilage
+server.listen(config.port, function () {
+    console.log("The server is listening to port " + config.port + " in config " + config.envName + " mode");
 })
 
 // Step - 5 Define all the handlers
