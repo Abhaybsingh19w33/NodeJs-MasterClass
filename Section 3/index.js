@@ -7,6 +7,25 @@ var StringDecoder = require('string_decoder').StringDecoder;
 var config = require('./config');
 var fs = require('fs');
 
+// var _data = require('./lib/data');
+
+// TESTING 
+// _data.create('test', 'newFile', { 'foo': 'bar' }, function (err) {
+//     console.log('this was the error', err);
+// });
+
+// _data.read('test', 'newFile1', function (err, data) {
+//     console.log('this was the error', err, ' this was the data ', data);
+// });
+
+// _data.update('test', 'newFile', { 'fizz': 'buzz' }, function (err, data) {
+//     console.log('this was the error', err, ' this was the data ', data);
+// });
+
+// _data.delete('test', 'newFile', function (err) {
+//     console.log('this was the error', err, ' deletion of file ', err ? 'unsuccessfully' : 'successfully');
+// });
+
 // instantiating the server
 const httpServer = http.createServer(function (req, res) {
     unifiedServer(req, res);
@@ -129,23 +148,23 @@ var handlers = {};
 // data contains every bit of data which is passed from browser
 // callback is a function which will be called when the handler had done with their request
 // handlers.sample = function (data, callback) {
-    // callback a http status code, and a pyload object
+// callback a http status code, and a pyload object
 
-    // 406 Not Acceptable client error response code 
-    // indicates that the server cannot produce a 
-    // response matching the list of acceptable values 
-    // defined in the request's proactive content 
-    // negotiation headers, and that the server is 
-    // unwilling to supply a default representation
+// 406 Not Acceptable client error response code 
+// indicates that the server cannot produce a 
+// response matching the list of acceptable values 
+// defined in the request's proactive content 
+// negotiation headers, and that the server is 
+// unwilling to supply a default representation
 
-    // this payload key value pair is passed
+// this payload key value pair is passed
 //     callback(406, { 'name': 'sample handler' });
 // };
 
 // Ping handler
 // to keep check if the server is alive or dead
 // payload will be empty
-handlers.ping = function(data,callback){
+handlers.ping = function (data, callback) {
     callback(200);
 };
 
