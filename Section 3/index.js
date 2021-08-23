@@ -4,8 +4,10 @@ var https = require('https');
 var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
 // const { StringDecoder } = require('string_decoder');
-var config = require('./config');
+var config = require('./lib/config');
 var fs = require('fs');
+var handlers = require("./lib/handlers");
+var helpers = require("./lib/helpers");
 
 // var _data = require('./lib/data');
 
@@ -141,40 +143,9 @@ var unifiedServer = function (req, res) {
     });
 };
 
-// Step - 5 Define all the handlers
-var handlers = {};
-
-// step - 5.2 Sample handler
-// data contains every bit of data which is passed from browser
-// callback is a function which will be called when the handler had done with their request
-// handlers.sample = function (data, callback) {
-// callback a http status code, and a pyload object
-
-// 406 Not Acceptable client error response code 
-// indicates that the server cannot produce a 
-// response matching the list of acceptable values 
-// defined in the request's proactive content 
-// negotiation headers, and that the server is 
-// unwilling to supply a default representation
-
-// this payload key value pair is passed
-//     callback(406, { 'name': 'sample handler' });
-// };
-
-// Ping handler
-// to keep check if the server is alive or dead
-// payload will be empty
-handlers.ping = function (data, callback) {
-    callback(200);
-};
-
-// Not found handler
-handlers.notFound = function (data, callback) {
-    callback(404);
-};
-
 // step - 5.1 Define the request router
 // here when sample passed in url the handler.sample will be called
 var router = {
-    'ping': handlers.ping
+    'ping': handlers.ping,
+    'users': handlers.users
 };
